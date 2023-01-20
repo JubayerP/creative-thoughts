@@ -2,6 +2,7 @@ import Message from '@/components/message';
 import { db } from '@/firebase/firebase.config';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 
@@ -32,7 +33,8 @@ export default function Home() {
       <div className='my-12 text-lg font-medium'>
         <h2>See what other people are saying!</h2>
         {allPost.map(post => (
-          <Message {...post}>
+          <Message {...post} key={post.id}>
+            <Link></Link>
           </Message>
         ))}
       </div>
