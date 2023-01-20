@@ -3,9 +3,12 @@ import { BsFacebook } from 'react-icons/bs'
 import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase/firebase.config'
 import { useRouter } from 'next/router';
+import {useAuthState} from 'react-firebase-hooks/auth'
+import { useEffect } from 'react';
 
 const login = () => {
     const route = useRouter()
+    const [user, loading] = useAuthState(auth)
 
     // sign in with google
     const googleProvider = new GoogleAuthProvider();
@@ -15,13 +18,20 @@ const login = () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             route.push('/')
-            // 38 mins
         } catch (error) {
             console.log(error);
         }
     }
 
 
+
+    useEffect(() => {
+        if (user) {
+            route.push('/')
+        } else {
+            console.log('login');
+        }
+    },[user])
 
     return (
         <div className="shadow-xl mt-32 p-10 text-gray-700 rounded-lg">
